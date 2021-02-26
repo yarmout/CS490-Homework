@@ -11,16 +11,12 @@ function App() {
   const [board, setBoard] = useState([null, null, null, null, null, null, null, null, null])
   
   function onClickSquare(square_index) {
-    const newBoard = board.map((letter, index) => {
-      if (index === square_index) {
-          socket.emit('move', square_index);
-          return 'X'
-      }
-      else
-        return letter
-    });
-    
-    setBoard(newBoard);
+      socket.emit('move', square_index);
+      setBoard(prevBoard => {
+          const newBoard = [...prevBoard];
+          newBoard[square_index] = 'X';
+          return newBoard;
+      });
   }
   
   useEffect(() => {
